@@ -2,7 +2,7 @@ name: "deploy-dev-eu-central-1"
 on: 
   push:
     branches:
-    - main
+    - master
 jobs:
   BuildAndPushToECR:
     name: "BuildAndPushToECR"
@@ -13,18 +13,17 @@ jobs:
         uses: actions/checkout@v3
 
       - name: "Aws Configure"
-        uses: aws-actions/configure_aws_credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
       - name: "ECR login"
-        uses: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@v1
 
       - name: "Build and Push"
         run: |
-          docker build -t discovery-service .
+          docker build -t discovery-service:latest .
           docker tag discovery-service:latest 453613237449.dkr.ecr.eu-central-1.amazonaws.com/discovery-service-repository-dev:latest
-          docker push 453613237449.dkr.ecr.eu-central-1.amazonaws.com/booksapp:discovery-service
-  
+          docker push 453613237449.dkr.ecr.eu-central-1.amazonaws.com/discovery-service-repository-dev:latest

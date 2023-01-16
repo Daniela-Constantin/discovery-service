@@ -25,7 +25,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: "Build and Push"
-      - run: |
+        run: |
           docker build -t discovery-service .
           docker tag discovery-service:latest 453613237449.dkr.ecr.eu-central-1.amazonaws.com/discovery-service-repository-dev:latest
           docker push 453613237449.dkr.ecr.eu-central-1.amazonaws.com/booksapp:discovery-service
